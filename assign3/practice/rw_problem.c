@@ -22,11 +22,11 @@ int main()
     scanf("%d",&NumberofWriterThread);
 
     /*create the writer and reader threads*/
-    for(i=0; i<numberofreaderthread; i++)
+    for(i=0; i<NumberofReaderThread; i++)
     {
         pthread_create(&Readers_thr[i],NULL,Reader,(void *)i);
     }
-    for(i=0; i<numberofwriterthread; i++)
+    for(i=0; i<NumberofWriterThread; i++)
     {
         pthread_create(&Writer_thr[i],NULL,Writer,(void *)i);
     }
@@ -64,6 +64,7 @@ void *Reader(void *arg)
     sleep(1);
     int temp=(int)arg;
     printf("\nReader %d is trying to enter into the Database for reading the data",temp);
+    
     sem_wait(&readCountAccess);
     readCount++;
     if(readCount==1)
@@ -73,7 +74,7 @@ void *Reader(void *arg)
     }
     sem_post(&readCountAccess);
     sem_wait(&readCountAccess);
-    readCount–-;
+    readCount--;
     if(readCount==0)
     {
         printf("\nReader %d is leaving the database",temp);
