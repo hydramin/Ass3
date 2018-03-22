@@ -41,6 +41,12 @@ time_t current_alarm = 0;
 sem_t readCountAccess;
 sem_t alarmListAccess;
 int readCount=0;
+/*Messages*/
+const char msg_3[] = "Replaced";
+
+void display_msg(const char *msg) {
+  printf("%s\n", msg);
+}
 
 /*
  * Insert alarm entry on list, in order.
@@ -58,9 +64,15 @@ void alarm_insert (void *arg){
     last = &alarm_list;
     next = *last;
     while (next != NULL) {
-        if (next->number >= alarm->number) {
+        if (next->number > alarm->number) {
             alarm->link = next;
             *last = alarm;
+            break;
+        } else if (next->number == alarm->number){
+            alarm->link = next->link;            
+            *last = alarm;
+            free(next);
+            display_msg(msg_3);
             break;
         }
         last = &next->link;
