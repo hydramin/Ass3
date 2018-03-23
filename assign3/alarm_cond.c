@@ -24,6 +24,7 @@
  */
 
 #define DEBUG 1
+#define DEGUG 2
 
 
 typedef struct alarm_tag {
@@ -100,6 +101,7 @@ void * alarm_insert (void * arg){
                     next->seconds, next->type, next->time, next->message);
                 printf ("]\n");
     #endif
+
     /*
      * Wake the alarm thread if it is not busy (that is, if
      * current_alarm is 0, signifying that it's waiting for
@@ -165,7 +167,6 @@ void * alarm_thread (void *arg){
 
   sem_wait(&readCountAccess);
         readCount++;
-        printf("count : \n",readCount );
         if(readCount==1) {
             sem_wait(&alarmListAccess);
         }
@@ -277,25 +278,24 @@ int main (int argc, char *argv[]){
             strncpy(alarm->message, t1_msg, 128);
             alarm->time = time (NULL) + t1_sec;
             alarm->isAssigned = 0;
-            /*if (sscanf(line, "%d Message(%d, %d) %1000[^\n]", &alarm->seconds,&alarm->type,&alarm->number,tempS) < 4){
-                fprintf (stderr, "Bad command, Not Type A\n");
-                free (alarm);
-                continue;
-            }*/
 
             /*call the writer thread to write to save the alarm created into the alarm thread*/
 
             status = pthread_create (&writer_thread, NULL, alarm_insert, alarm);
             if (status != 0)
                 err_abort (status, "Insert alarm into alarm list");
-
+  #ifdef DEGUG
+              pthread_join(writer_thread,NULL);
+  #endif
 
 /* <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><> CREATE THREAD BLOCK*/
 /*2==>*/} else if (err_t2 == 1){
             status = pthread_create (&writer_thread, NULL, alarm_thread, &t2_type);
             if (status != 0)
                 err_abort (status, "Create alarm thread");
-
+  #ifdef DEGUG
+              pthread_join(writer_thread,NULL);
+  #endif
 /* <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><> TERMINATION BLOCK*/
 /*3==>*/}else if (err_t3 == 1){
       }
