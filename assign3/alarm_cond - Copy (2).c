@@ -47,12 +47,10 @@ int readCount=0;
 
 /*Messages to be displayed when there is an error or there is any status update*/
 const char msg_3[] = "Replaced";
-const char msg_4[] = "Alarm with this message type doesn't exist";
-const char msg_5[] = "Alarm with message type specified is processed.";
-
+const char msg_4[] = "Alarm doesn't exist";
 /*a method that prints the error message*/
-void display_msg(const char *msg, int x) {
-  printf("%s --> %d\n", msg,x);
+void display_msg(const char *msg) {
+  printf("%s\n", msg);
 }
 
 /*
@@ -79,7 +77,7 @@ void * alarm_insert (void * arg){
             alarm->link = next->link;
             *last = alarm;
             free(next);
-            display_msg(msg_3,0);
+            display_msg(msg_3);
             break;
         }
         last = &next->link;
@@ -157,40 +155,12 @@ void * alarm_insert (void * arg){
 //     }
 // }
 void * periodic_display_threads(void * args){
-  alarm_t *alarm, *next;
-  time_t now;
-  int status;
-  int message_type = (int) *((int *) args);
-  display_msg(msg_5,message_type);
-  printf("---------periodic_display_threads created---------------->>>>>>>>>\n");
-  /* READER loop that reads through the alarm list and prints the relevant
-  alarms*/
-    while (1) {
-      sem_wait(&readCountAccess);
-            readCount++;
-            if(readCount==1) {
-                sem_wait(&alarmListAccess);
-            }
-      sem_post(&readCountAccess);
-      /*<><><><><><><><><><><><><><><><><><><><><><><><><>*/
-      /*loop through the alarm list and print the alarms with the specified
-      message types*/
+  alarm_t *alarm;
+    time_t now;
+    int status, expired;
 
-      for (next = alarm_list; next != NULL; next = next->link){
-          if (next->type == message_type && next->isAssigned == 1 && next->time >= time(NULL)){
-              printf("Printing message, Type : %d , Number : %d , Msg : %s , Tim : %ld\n",next->type,next->number, next->message, (next->time - time(NULL)));
-          }
-      }
-      /*<><><><><><><><><><><><><><><><><><><><><><><><><>*/
-      /*the lock on the alarm list is freed if all readers are done*/
-      sem_wait(&readCountAccess);
-            readCount--;
-            /*the last thread releases the database for writting*/
-            if(readCount==0){
-                sem_post(&alarmListAccess);
-            }
-      sem_post(&readCountAccess);
-      sleep(1);
+    while (1) {
+      
     }
 }
 
@@ -199,11 +169,7 @@ void * periodic_display_threads(void * args){
   through and assigns an alarm to a thread.*/
 void * alarm_thread (void *arg){
   alarm_t *next;
-  pthread_t print_thread;
-  int status, *message_type =  (int*) arg ;
-  /*the specified message_type (int value) exists = 1, doesn't exist = 0
-   by default it is assumed to not exist, unless proved.*/
-  int type_exists = 0;
+  int *message_type = (int*) arg;
   /*
   - lock the semaphore as a reader
   - search through the list and check if a request with the message_type
@@ -217,20 +183,18 @@ void * alarm_thread (void *arg){
         }
   sem_post(&readCountAccess);
   /*<><><><><><><><><><><><><><><><><><><><><><><><><>*/
-  /*find an unassigned alarm and assign it to a thread it the message_type
-  exists in the alarm_list*/
-
+  /*find an unassigned alarm and assign it to a thread*/
   for (next = alarm_list; next != NULL; next = next->link){
       if (next->type == *message_type && next->isAssigned == 0){
           /*entering if block means it has found there is an alarm to
             be processed. So create a periodic_display_threads to service it*/
-          type_exists = 1;
-          next->isAssigned = 1;
+
           printf("Found and item, Type : %d , Number : %d\n",next->type,next->number);
       }
+
   }
+
   /*<><><><><><><><><><><><><><><><><><><><><><><><><>*/
-  /*the lock on the alarm list is freed if all readers are done*/
   sem_wait(&readCountAccess);
         readCount--;
         /*the last thread releases the database for writting*/
@@ -238,15 +202,6 @@ void * alarm_thread (void *arg){
             sem_post(&alarmListAccess);
         }
   sem_post(&readCountAccess);
-
-  /*based on the results from the loop above, decide the next step*/
-  if (type_exists) {
-    status = pthread_create(&print_thread,NULL,periodic_display_threads,message_type);
-    if (status != 0)
-      err_abort (status, "periodic_display_threads not created!\n");
-  } else {
-      display_msg(msg_4,*message_type);
-  }
 
 }
 
