@@ -33,17 +33,21 @@ typedef struct alarm_tag {
   char                message[128];
   int                 number;
   int                 type;           /* type of message*/
-  // int                 isAssigned;     /* whether the alarm is assigned to a thread or not (is 1 or 0)*/
+  int                 isAssigned;     /* whether the alarm is assigned to a thread or not (is 1 or 0)*/
 } alarm_t;
 
 alarm_t *alarm_list = NULL;
 time_t current_alarm = 0;
+
+/*semaphores declared here*/
 sem_t readCountAccess;
 sem_t alarmListAccess;
 int readCount=0;
-/*Messages*/
-const char msg_3[] = "Replaced";
 
+/*Messages to be displayed when there is an error or there is any status update*/
+const char msg_3[] = "Replaced";
+const char msg_4[] = "Alarm doesn't exist";
+/*a method that prints the error message*/
 void display_msg(const char *msg) {
   printf("%s\n", msg);
 }
@@ -52,7 +56,7 @@ void display_msg(const char *msg) {
  * Insert alarm entry on list, in order.
  WRITER FUNCTION
  */
-void alarm_insert (void *arg){
+void * alarm_insert (void * arg){
     int status;
     alarm_t **last, *next, *alarm = (alarm_t *) arg;
 
@@ -69,7 +73,7 @@ void alarm_insert (void *arg){
             *last = alarm;
             break;
         } else if (next->number == alarm->number){
-            alarm->link = next->link;            
+            alarm->link = next->link;
             *last = alarm;
             free(next);
             display_msg(msg_3);
@@ -109,7 +113,7 @@ void alarm_insert (void *arg){
  * The alarm thread's start routine.
  READER FUNCTION
  */
-void *alarm_thread (void *arg){
+// void *alarm_thread (void *arg){
 //     alarm_t *alarm;
 //     struct timespec cond_time;
 //     time_t now;
@@ -147,17 +151,61 @@ void *alarm_thread (void *arg){
 // #endif
 //
 //     }
+// }
+
+/*The alarm thread function allows the createion of periodic_display_threads*/
+void * alarm_thread (void *arg){
+  alarm_t *next;
+  int *message_type = (int*) arg;
+  /*
+  - lock the semaphore as a reader
+  - search through the list and check if a request with the message_type
+    exists.
+  - if it exists, create a thread; if it doesn't exits display error*/
+
+  sem_wait(&readCountAccess);
+        readCount++;
+        printf("count : \n",readCount );
+        if(readCount==1) {
+            sem_wait(&alarmListAccess);
+        }
+  sem_post(&readCountAccess);
+  /*<><><><><><><><><><><><><><><><><><><><><><><><><>*/
+
+  for (next = alarm_list; next != NULL; next = next->link){
+      if (next->type == *message_type && next->isAssigned == 0){
+          /*entering if block means it has found there is an alarm to
+            be processed. So create a periodic_display_threads to service it*/
+
+          printf("Found and item, Type : %d , Number : %d\n",next->type,next->number);
+      }
+
+  }
+
+  /*<><><><><><><><><><><><><><><><><><><><><><><><><>*/
+  sem_wait(&readCountAccess);
+        readCount--;
+        /*the last thread releases the database for writting*/
+        if(readCount==0){
+            sem_post(&alarmListAccess);
+        }
+  sem_post(&readCountAccess);
+
 }
 
 int main (int argc, char *argv[]){
     /*initialize the semaphores*/
     sem_init(&readCountAccess,0,1);
     sem_init(&alarmListAccess,0,1);
+
+    /*local variables*/
     int status;
     char line[1500];
     char tempS[1000];
     alarm_t *alarm;
-    pthread_t thread;
+
+    /*thread creation variable*/
+    pthread_t writer_thread;
 
     while (1) {
         printf ("Alarm> ");
@@ -218,7 +266,7 @@ int main (int argc, char *argv[]){
 
 // <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><> ALARM SETTING/INPUT BLOCK
 /*1==>*/if(err_t1 == 4){
-            alarm = (alarm_t*)malloc (sizeof (alarm_t));
+            alarm = (alarm_t*) malloc (sizeof (alarm_t));
             if (alarm == NULL)
                 errno_abort ("Allocate alarm");
 
@@ -228,6 +276,7 @@ int main (int argc, char *argv[]){
             alarm->number = t1_num;
             strncpy(alarm->message, t1_msg, 128);
             alarm->time = time (NULL) + t1_sec;
+            alarm->isAssigned = 0;
             /*if (sscanf(line, "%d Message(%d, %d) %1000[^\n]", &alarm->seconds,&alarm->type,&alarm->number,tempS) < 4){
                 fprintf (stderr, "Bad command, Not Type A\n");
                 free (alarm);
@@ -235,11 +284,18 @@ int main (int argc, char *argv[]){
             }*/
 
             /*call the writer thread to write to save the alarm created into the alarm thread*/
-            alarm_insert (alarm);
+
+            status = pthread_create (&writer_thread, NULL, alarm_insert, alarm);
+            if (status != 0)
+                err_abort (status, "Insert alarm into alarm list");
 
 
 /* <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><> CREATE THREAD BLOCK*/
 /*2==>*/} else if (err_t2 == 1){
+            status = pthread_create (&writer_thread, NULL, alarm_thread, &t2_type);
+            if (status != 0)
+                err_abort (status, "Create alarm thread");
+
 /* <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><> TERMINATION BLOCK*/
 /*3==>*/}else if (err_t3 == 1){
       }
