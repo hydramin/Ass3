@@ -160,7 +160,7 @@ void * periodic_display_threads(void * args){
     int status, expired;
 
     while (1) {
-      
+
     }
 }
 

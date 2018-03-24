@@ -23,7 +23,7 @@
  * been on the list.
  */
 
-#define DEBUG 1
+// #define DEBUG 1
 #define DEGUG 2
 
 
@@ -37,7 +37,17 @@ typedef struct alarm_tag {
   int                 isAssigned;     /* whether the alarm is assigned to a thread or not (is 1 or 0)*/
 } alarm_t;
 
+/*A data structure that holds information about a thread and the
+type of alarm request it manages*/
+typedef struct thread_data_structure {
+    struct thread_data_structure     *link;
+    pthread_t 			            thread;
+    int				                type;
+    int                             flag; /* used to terminate the while loop in the thread so the thread exits safely*/
+} thread_ds;
+
 alarm_t *alarm_list = NULL;
+thread_ds *thread_list = NULL;
 time_t current_alarm = 0;
 
 /*semaphores declared here*/
@@ -45,15 +55,22 @@ sem_t readCountAccess;
 sem_t alarmListAccess;
 int readCount=0;
 
+sem_t t_readCountAccess;
+sem_t t_threadListAccess;
+int t_readCount=0;
+
 /*Messages to be displayed when there is an error or there is any status update*/
 const char msg_3[] = "Replaced";
+const char msg_3_1[] = "Replaced so it will not be printed ------------------>";
 const char msg_4[] = "Alarm with this message type doesn't exist";
 const char msg_5[] = "Alarm with message type specified is processed.";
+const char msg_6[] = "Thread already exists";
 
 /*a method that prints the error message*/
 void display_msg(const char *msg, int x) {
   printf("%s --> %d\n", msg,x);
 }
+void save_thread(int msg_type, pthread_t prt_thread);
 
 /*
  * Insert alarm entry on list, in order.
@@ -76,10 +93,19 @@ void * alarm_insert (void * arg){
             *last = alarm;
             break;
         } else if (next->number == alarm->number){
+            /*if on insertion, the currently pointed alarm is being printed
+            and if next->type and alarm->type are different printed
+            message*/
+            printf("assigned --> %d new type --> %d current type --> %d\n",next->isAssigned,alarm->type,next->type );
+            if (next->isAssigned = 1 /*&& alarm->type != next->type*/){
+              display_msg(msg_3_1,alarm->number);
+            } else {
+              display_msg(msg_3,0);
+            }
+
             alarm->link = next->link;
             *last = alarm;
             free(next);
-            display_msg(msg_3,0);
             break;
         }
         last = &next->link;
@@ -103,66 +129,15 @@ void * alarm_insert (void * arg){
                     next->seconds, next->type, next->time, next->message);
                 printf ("]\n");
     #endif
-
-    /*
-     * Wake the alarm thread if it is not busy (that is, if
-     * current_alarm is 0, signifying that it's waiting for
-     * work), or if the new alarm comes before the one on
-     * which the alarm thread is waiting.
-     */
-
 }
 
-/*
- * The alarm thread's start routine.
- READER FUNCTION
- */
-// void *alarm_thread (void *arg){
-//     alarm_t *alarm;
-//     struct timespec cond_time;
-//     time_t now;
-//     int status, expired;
-//
-//     /*
-//      * Loop forever, processing commands. The alarm thread will
-//      * be disintegrated when the process exits. Lock the mutex
-//      * at the start -- it will be unlocked during condition
-//      * waits, so the main thread can insert alarms.
-//      */
-//     status = pthread_mutex_lock (&alarm_mutex);
-//     if (status != 0)
-//         err_abort (status, "Lock mutex");
-//     while (1) {
-//         /*
-//          * If the alarm list is empty, wait until an alarm is
-//          * added. Setting current_alarm to 0 informs the insert
-//          * routine that the thread is not busy.
-//          */
-//         current_alarm = 0;
-//         while (alarm_list == NULL) {
-//             status = pthread_cond_wait (&alarm_cond, &alarm_mutex);
-//             if (status != 0)
-//                 err_abort (status, "Wait on cond");
-//             }
-//         alarm = alarm_list;
-//         alarm_list = alarm->link;
-//         now = time (NULL);
-//         expired = 0;
-//         if (alarm->time > now) {
-// #ifdef DEBUG
-//             printf ("[waiting: %d(%d)\"%s\"]\n", alarm->time,
-//                 alarm->time - time (NULL), alarm->message);
-// #endif
-//
-//     }
-// }
 void * periodic_display_threads(void * args){
   alarm_t *alarm, *next;
   time_t now;
   int status;
   int message_type = (int) *((int *) args);
   display_msg(msg_5,message_type);
-  printf("---------periodic_display_threads created---------------->>>>>>>>>\n");
+  printf("---------periodic_display_threads created--------->>>>>>>>>\n");
   /* READER loop that reads through the alarm list and prints the relevant
   alarms*/
     while (1) {
@@ -175,12 +150,13 @@ void * periodic_display_threads(void * args){
       /*<><><><><><><><><><><><><><><><><><><><><><><><><>*/
       /*loop through the alarm list and print the alarms with the specified
       message types*/
-
+  #ifdef DEBUG
       for (next = alarm_list; next != NULL; next = next->link){
-          if (next->type == message_type && next->isAssigned == 1 && next->time >= time(NULL)){
+          if (next->type == message_type /*&& next->isAssigned == 1*/ && next->time >= time(NULL)){
               printf("Printing message, Type : %d , Number : %d , Msg : %s , Tim : %ld\n",next->type,next->number, next->message, (next->time - time(NULL)));
           }
       }
+  #endif
       /*<><><><><><><><><><><><><><><><><><><><><><><><><>*/
       /*the lock on the alarm list is freed if all readers are done*/
       sem_wait(&readCountAccess);
@@ -192,6 +168,33 @@ void * periodic_display_threads(void * args){
       sem_post(&readCountAccess);
       sleep(1);
     }
+}
+
+/*returns 1 if thread exists and 0 if it doesn't*/
+int check_thread_existance(int msg_type){
+  thread_ds *s;
+  int does_exist = 0;
+  sem_wait(&t_readCountAccess);
+        t_readCount++;
+        if(t_readCount==1) {
+            sem_wait(&t_threadListAccess);
+        }
+  sem_post(&readCountAccess);
+  /*lock <<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>*/
+  for(s = thread_list; s != NULL; s = s->link){
+    if(s->type == msg_type){
+      does_exist = 1;
+    }
+  }
+  /*unlock <<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>*/
+  sem_wait(&t_readCountAccess);
+        t_readCount--;
+        /*the last thread releases the database for writting*/
+        if(t_readCount==0){
+            sem_post(&t_threadListAccess);
+        }
+  sem_post(&t_readCountAccess);
+  return does_exist;
 }
 
 /*The alarm thread function allows the createion of periodic_display_threads
@@ -219,15 +222,19 @@ void * alarm_thread (void *arg){
   /*<><><><><><><><><><><><><><><><><><><><><><><><><>*/
   /*find an unassigned alarm and assign it to a thread it the message_type
   exists in the alarm_list*/
-
-  for (next = alarm_list; next != NULL; next = next->link){
-      if (next->type == *message_type && next->isAssigned == 0){
-          /*entering if block means it has found there is an alarm to
-            be processed. So create a periodic_display_threads to service it*/
-          type_exists = 1;
-          next->isAssigned = 1;
-          printf("Found and item, Type : %d , Number : %d\n",next->type,next->number);
-      }
+  if (!check_thread_existance(*message_type)) {
+    for (next = alarm_list; next != NULL; next = next->link){
+        if (next->type == *message_type /*&& next->isAssigned == 0*/){
+            /*entering if block means it has found there is an alarm to
+              be processed. So create a periodic_display_threads to service it*/
+            type_exists = 1;
+            /*next->isAssigned = 1;*/
+            printf("Found and item, Type : %d , Number : %d\n",next->type,next->number);
+        }
+    }
+  } else {
+    type_exists = 2; /*if thread already exists*/
+    display_msg(msg_6,*message_type);
   }
   /*<><><><><><><><><><><><><><><><><><><><><><><><><>*/
   /*the lock on the alarm list is freed if all readers are done*/
@@ -240,20 +247,49 @@ void * alarm_thread (void *arg){
   sem_post(&readCountAccess);
 
   /*based on the results from the loop above, decide the next step*/
-  if (type_exists) {
+  if (type_exists == 1) {
     status = pthread_create(&print_thread,NULL,periodic_display_threads,message_type);
     if (status != 0)
       err_abort (status, "periodic_display_threads not created!\n");
-  } else {
+    save_thread((int) *message_type, print_thread);
+  } else if (type_exists == 0) {
       display_msg(msg_4,*message_type);
   }
 
+}
+
+/*WRITER METHOD TO ADD THREAD INFO INTO thread_list*/
+void save_thread(int msg_type, pthread_t prt_thread){
+  sem_wait(&t_threadListAccess); /*lock*/
+  if(thread_list == NULL) {
+          thread_list = (thread_ds*) malloc(sizeof(thread_ds));
+          thread_list->type = msg_type;
+          thread_list->thread = prt_thread;
+          /*a 0 flag means the termination status of the created thread is false*/
+          thread_list->flag = 0;
+          thread_list->link = NULL;
+  }
+  else {
+      thread_ds *next_2 = thread_list;
+      while(next_2->link != NULL){
+          next_2 = next_2->link;
+      }
+      next_2->link = (thread_ds*) malloc(sizeof (thread_ds));
+      next_2 = next_2->link;
+      next_2->type = msg_type;
+      next_2->thread = prt_thread;
+      next_2->flag = 0;
+      next_2->link = NULL;
+  }
+  sem_post(&t_threadListAccess); /*unlock*/
 }
 
 int main (int argc, char *argv[]){
     /*initialize the semaphores*/
     sem_init(&readCountAccess,0,1);
     sem_init(&alarmListAccess,0,1);
+    sem_init(&t_threadListAccess,0,1);
+    sem_init(&t_readCountAccess,0,1);
 
     /*local variables*/
     int status;
@@ -290,7 +326,7 @@ int main (int argc, char *argv[]){
          err_t1 = sscanf(line,"%d Message(%d, %d) %1000[^\n]",&t1_sec,&t1_type,&t1_num,tempS);
          strncpy(t1_msg, tempS, 128);
          err_t2 = sscanf(line, "Create_Thread: MessageType(%d)",&t2_type);
-         err_t3 = sscanf(line, "Cancle: Message(%d)",&t3_num);
+         err_t3 = sscanf(line, "Cancel: Message(%d)",&t3_num);
 // <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><> INPUT VALIDATION BLOCK
 
          /*Check if there is any error in the commands entered,
@@ -354,6 +390,12 @@ int main (int argc, char *argv[]){
   #endif
 /* <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><> TERMINATION BLOCK*/
 /*3==>*/}else if (err_t3 == 1){
-      }
+#ifdef DEGUG
+        thread_ds *s;
+        for(s = thread_list; s != NULL; s = s->link)
+            printf("List of Threads: \nType: %d -- Thread Id: %ld\n",s->type,s->thread);
+#endif
+
+        }
     }
 }
