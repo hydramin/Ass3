@@ -29,3 +29,14 @@ Create_Thread: MessageType(1)
 Create_Thread: MessageType(2)
 Create_Thread: MessageType(3)
 Cancel: Message(1)
+
+Test for thread creation:
+1. Create normal thread and have it
+pring a message:
+50 Message(1, 4) "4 cyra says"
+Create_Thread: MessageType(1)
+
+2. Create a thread and replace its alarm
+50 Message(1, 4) "4 cyra says"
+Create_Thread: MessageType(1)
+50 Message(2, 4) "4 cyra says do it now"
