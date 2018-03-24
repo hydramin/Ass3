@@ -62,6 +62,7 @@ int t_readCount=0;
 
 /*function definitions*/
 void save_thread(int msg_type, pthread_t prt_thread);
+void remove_alarm_request(int msg_number);
 void * alarm_thread (void *arg);
 void * alarm_insert (void * arg);
 void * periodic_display_threads(void * args);
@@ -135,6 +136,37 @@ void * alarm_insert (void * arg){
     sem_post(&alarmListAccess); /*unlock*/
 
 
+}
+
+/*WRITER FUNCTION*/
+void remove_alarm_request(int msg_number){
+  sem_wait(&alarmListAccess); /*lock*/
+
+  /*Remove all alarms with the specified type*/
+  /* loop until all type=x alarm requests are removed*/
+  while(1){
+      alarm_t *temp = alarm_list, *prev;
+      /*If found at first remove it there*/
+      if (temp != NULL && temp->number == msg_number){
+          alarm_list = temp->link;
+          free(temp);
+          continue;
+      } else {
+          /*If alarm is not at first, then iterate through and find it*/
+          while(temp != NULL && temp->number != msg_number){
+              prev = temp;
+              temp = temp->link;
+          }
+
+          /*if all the specified alarms are removed exit the infinite loop*/
+          if(temp == NULL){
+              sem_post(&alarmListAccess); /*unlock*/
+              break;
+          }
+          prev->link = temp->link;
+          free(temp);
+      }
+  }
 }
 
 void * periodic_display_threads(void * args){
