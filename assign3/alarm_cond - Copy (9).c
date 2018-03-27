@@ -149,7 +149,7 @@ it takes in the message_number of the Type A alarm request*/
 void add_to_removal_list(int msg_number);
 
 /*removes a Type C request from the removal_list*/
-/*void remove_from_removal_list(int msg_number);*/
+void remove_from_removal_list(int msg_number);
 
 /*returns positive number if the removal request exists
 in the removal list*/
