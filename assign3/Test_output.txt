@@ -464,3 +464,862 @@ Type A: <+ve integer> Message(Message_Type : <+ve integer>, Message_Number : <+v
 Type B: Create_Thread: MessageType(Message_Type : <+ve integer>)
 Type C: Cancle: Message(Message_Number : <+ve integer>)
 Alarm>
+
+
+
+====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====
+====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====
+====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====
+====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====
+
+4. THOROUGH WORKFLOW TESTS
+
+full workflow test with replacements, replacements after thread has been created, delete threads, print deleted thread, create multiple threads, replace and delete, 
+let time expire, test times, long input
+
+
+LIST ADDING
+
+====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====
+====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====
+====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====
+====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====
+
+TESTING FOR INPUT AND REPLACING MESSAGES AND TRUNCATING CHARACTERS:
+
+Alarm> 10 Message(1, 1) "I like Operating Systems"
+10 Message(1, 2) "How are you?"
+10 Message(1, 3) "where are you going?"
+10 Message(1, 4) "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZpGa9IQQw5Qw17BlEVaA8o5dTUPWRY"
+10 Message(1, 4) "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters exceeds 128. This string is too long and this message will replace the previous one of this message number"
+
+Type A Replacement Alarm Request With Message Number (1) Inserted Into Alarm List at <1522646149>: <Type A>
+Stopped Displaying Replaced Alarm With Message Type (1) at <1522646149>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522646159, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646025, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646025, Msg : "where are you going?"
+N : 4, S : 10, Ty : 1, Ti : 1522646061, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex
+]
+Alarm> Type A Replacement Alarm Request With Message Number (2) Inserted Into Alarm List at <1522646149>: <Type A>
+Stopped Displaying Replaced Alarm With Message Type (1) at <1522646149>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522646159, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646159, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646025, Msg : "where are you going?"
+N : 4, S : 10, Ty : 1, Ti : 1522646061, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex
+]
+Alarm> Type A Replacement Alarm Request With Message Number (3) Inserted Into Alarm List at <1522646149>: <Type A>
+Stopped Displaying Replaced Alarm With Message Type (1) at <1522646149>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522646159, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646159, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646159, Msg : "where are you going?"
+N : 4, S : 10, Ty : 1, Ti : 1522646061, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex
+]
+Alarm> Type A Replacement Alarm Request With Message Number (4) Inserted Into Alarm List at <1522646149>: <Type A>
+Stopped Displaying Replaced Alarm With Message Type (1) at <1522646149>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522646159, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646159, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646159, Msg : "where are you going?"
+N : 4, S : 10, Ty : 1, Ti : 1522646159, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+]
+Alarm> Type A Replacement Alarm Request With Message Number (4) Inserted Into Alarm List at <1522646149>: <Type A>
+Stopped Displaying Replaced Alarm With Message Type (1) at <1522646149>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522646159, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646159, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646159, Msg : "where are you going?"
+N : 4, S : 10, Ty : 1, Ti : 1522646159, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex
+]
+
+====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====
+====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====
+====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====
+====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====
+
+TESTING FOR INSERTING MESSAGES OF DIFFERENT MESSAGE TYPES AND REPLACING USING MESSAGE NUMBER OF OLD MESSAGE WITH OLD MESSAGE TYPE:
+10 Message(2, 5) "where are you?"
+10 Message(2, 6) "would you like to hear a story?"
+10 Message(2, 4) "Operating systems is a cool course"
+
+Type A Alarm Request With Message Number (5) Inserted Into Alarm List at <1522646793>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522646779, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646779, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 1, Ti : 1522646779, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex
+N : 5, S : 10, Ty : 2, Ti : 1522646803, Msg : "where are you?"
+]
+Alarm> Type A Alarm Request With Message Number (6) Inserted Into Alarm List at <1522646793>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522646779, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646779, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 1, Ti : 1522646779, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex
+N : 5, S : 10, Ty : 2, Ti : 1522646803, Msg : "where are you?"
+N : 6, S : 10, Ty : 2, Ti : 1522646803, Msg : "would you like to hear a story?"
+]
+Alarm> 10 Message(2, 4) "Operating systems is a cool course"
+Type A Replacement Alarm Request With Message Number (4) Inserted Into Alarm List at <1522646842>: <Type A>
+Stopped Displaying Replaced Alarm With Message Type (2) at <1522646842>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522646779, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646779, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522646852, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 2, Ti : 1522646803, Msg : "where are you?"
+N : 6, S : 10, Ty : 2, Ti : 1522646803, Msg : "would you like to hear a story?"
+]
+
+
+====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====
+====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====
+====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====
+====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====
+
+TESTING FOR INSERTING MESSAGES OF DIFFERENT MESSAGE TYPES AND AND TIMES:
+
+Alarm> 10 Message(1, 1) "I like Operating Systems"
+100 Message(6, 12) "How are you?"
+60 Message(8, 13) "where are you going?"
+30 Message(6, 14) "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZpGa9IQQw5Qw17BlEVaA8o5dTUPWRY"
+200 Message(7, 24) "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters exceeds 128. This string is too long and this message will replace the previous one of this message number"
+8 Message(6, 22) "How are you?"
+66 Message(8, 23) "where are you going?"
+32 Message(6, 24) "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZpGa9IQQw5Qw17BlEVaA8o5dTUPWRY"
+210 Message(7, 34) "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters exceeds 128. This string is too long and this message will replace the previous one of this message number"
+10 Message(1, 92) "How are you?"
+96 Message(1, 93) "where are you going?"
+130 Message(2, 94) "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZpGa9IQQw5Qw17BlEVaA8o5dTUPWRY"
+20 Message(1, 294) "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters exceeds 128. This string is too long and this message will replace the previous one of this message number"
+
+
+Type A Replacement Alarm Request With Message Number (1) Inserted Into Alarm List at <1522647278>: <Type A>
+Stopped Displaying Replaced Alarm With Message Type (1) at <1522647278>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522647288, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646779, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522646852, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 2, Ti : 1522646803, Msg : "where are you?"
+N : 6, S : 10, Ty : 2, Ti : 1522646803, Msg : "would you like to hear a story?"
+]
+Alarm> Type A Alarm Request With Message Number (12) Inserted Into Alarm List at <1522647278>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522647288, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646779, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522646852, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 2, Ti : 1522646803, Msg : "where are you?"
+N : 6, S : 10, Ty : 2, Ti : 1522646803, Msg : "would you like to hear a story?"
+N : 12, S : 100, Ty : 6, Ti : 1522647378, Msg : "How are you?"
+]
+Alarm> Type A Alarm Request With Message Number (13) Inserted Into Alarm List at <1522647278>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522647288, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646779, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522646852, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 2, Ti : 1522646803, Msg : "where are you?"
+N : 6, S : 10, Ty : 2, Ti : 1522646803, Msg : "would you like to hear a story?"
+N : 12, S : 100, Ty : 6, Ti : 1522647378, Msg : "How are you?"
+N : 13, S : 60, Ty : 8, Ti : 1522647338, Msg : "where are you going?"
+]
+Alarm> Type A Alarm Request With Message Number (14) Inserted Into Alarm List at <1522647278>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522647288, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646779, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522646852, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 2, Ti : 1522646803, Msg : "where are you?"
+N : 6, S : 10, Ty : 2, Ti : 1522646803, Msg : "would you like to hear a story?"
+N : 12, S : 100, Ty : 6, Ti : 1522647378, Msg : "How are you?"
+N : 13, S : 60, Ty : 8, Ti : 1522647338, Msg : "where are you going?"
+N : 14, S : 30, Ty : 6, Ti : 1522647308, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+]
+Alarm> Type A Alarm Request With Message Number (24) Inserted Into Alarm List at <1522647278>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522647288, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646779, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522646852, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 2, Ti : 1522646803, Msg : "where are you?"
+N : 6, S : 10, Ty : 2, Ti : 1522646803, Msg : "would you like to hear a story?"
+N : 12, S : 100, Ty : 6, Ti : 1522647378, Msg : "How are you?"
+N : 13, S : 60, Ty : 8, Ti : 1522647338, Msg : "where are you going?"
+N : 14, S : 30, Ty : 6, Ti : 1522647308, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 24, S : 200, Ty : 7, Ti : 1522647478, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex
+]
+Alarm> Type A Alarm Request With Message Number (22) Inserted Into Alarm List at <1522647278>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522647288, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646779, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522646852, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 2, Ti : 1522646803, Msg : "where are you?"
+N : 6, S : 10, Ty : 2, Ti : 1522646803, Msg : "would you like to hear a story?"
+N : 12, S : 100, Ty : 6, Ti : 1522647378, Msg : "How are you?"
+N : 13, S : 60, Ty : 8, Ti : 1522647338, Msg : "where are you going?"
+N : 14, S : 30, Ty : 6, Ti : 1522647308, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 22, S : 8, Ty : 6, Ti : 1522647286, Msg : "How are you?"
+N : 24, S : 200, Ty : 7, Ti : 1522647478, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex
+]
+Alarm> Type A Alarm Request With Message Number (23) Inserted Into Alarm List at <1522647278>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522647288, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646779, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522646852, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 2, Ti : 1522646803, Msg : "where are you?"
+N : 6, S : 10, Ty : 2, Ti : 1522646803, Msg : "would you like to hear a story?"
+N : 12, S : 100, Ty : 6, Ti : 1522647378, Msg : "How are you?"
+N : 13, S : 60, Ty : 8, Ti : 1522647338, Msg : "where are you going?"
+N : 14, S : 30, Ty : 6, Ti : 1522647308, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 22, S : 8, Ty : 6, Ti : 1522647286, Msg : "How are you?"
+N : 23, S : 66, Ty : 8, Ti : 1522647344, Msg : "where are you going?"
+N : 24, S : 200, Ty : 7, Ti : 1522647478, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex
+]
+Alarm> Type A Replacement Alarm Request With Message Number (24) Inserted Into Alarm List at <1522647278>: <Type A>
+Stopped Displaying Replaced Alarm With Message Type (7) at <1522647278>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522647288, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646779, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522646852, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 2, Ti : 1522646803, Msg : "where are you?"
+N : 6, S : 10, Ty : 2, Ti : 1522646803, Msg : "would you like to hear a story?"
+N : 12, S : 100, Ty : 6, Ti : 1522647378, Msg : "How are you?"
+N : 13, S : 60, Ty : 8, Ti : 1522647338, Msg : "where are you going?"
+N : 14, S : 30, Ty : 6, Ti : 1522647308, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 22, S : 8, Ty : 6, Ti : 1522647286, Msg : "How are you?"
+N : 23, S : 66, Ty : 8, Ti : 1522647344, Msg : "where are you going?"
+N : 24, S : 32, Ty : 6, Ti : 1522647310, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+]
+Alarm> Type A Alarm Request With Message Number (34) Inserted Into Alarm List at <1522647278>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522647288, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646779, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522646852, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 2, Ti : 1522646803, Msg : "where are you?"
+N : 6, S : 10, Ty : 2, Ti : 1522646803, Msg : "would you like to hear a story?"
+N : 12, S : 100, Ty : 6, Ti : 1522647378, Msg : "How are you?"
+N : 13, S : 60, Ty : 8, Ti : 1522647338, Msg : "where are you going?"
+N : 14, S : 30, Ty : 6, Ti : 1522647308, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 22, S : 8, Ty : 6, Ti : 1522647286, Msg : "How are you?"
+N : 23, S : 66, Ty : 8, Ti : 1522647344, Msg : "where are you going?"
+N : 24, S : 32, Ty : 6, Ti : 1522647310, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 34, S : 210, Ty : 7, Ti : 1522647488, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex"
+]
+Alarm> Type A Alarm Request With Message Number (92) Inserted Into Alarm List at <1522647278>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522647288, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646779, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522646852, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 2, Ti : 1522646803, Msg : "where are you?"
+N : 6, S : 10, Ty : 2, Ti : 1522646803, Msg : "would you like to hear a story?"
+N : 12, S : 100, Ty : 6, Ti : 1522647378, Msg : "How are you?"
+N : 13, S : 60, Ty : 8, Ti : 1522647338, Msg : "where are you going?"
+N : 14, S : 30, Ty : 6, Ti : 1522647308, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 22, S : 8, Ty : 6, Ti : 1522647286, Msg : "How are you?"
+N : 23, S : 66, Ty : 8, Ti : 1522647344, Msg : "where are you going?"
+N : 24, S : 32, Ty : 6, Ti : 1522647310, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 34, S : 210, Ty : 7, Ti : 1522647488, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex"
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+]
+Alarm> Type A Alarm Request With Message Number (93) Inserted Into Alarm List at <1522647278>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522647288, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646779, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522646852, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 2, Ti : 1522646803, Msg : "where are you?"
+N : 6, S : 10, Ty : 2, Ti : 1522646803, Msg : "would you like to hear a story?"
+N : 12, S : 100, Ty : 6, Ti : 1522647378, Msg : "How are you?"
+N : 13, S : 60, Ty : 8, Ti : 1522647338, Msg : "where are you going?"
+N : 14, S : 30, Ty : 6, Ti : 1522647308, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 22, S : 8, Ty : 6, Ti : 1522647286, Msg : "How are you?"
+N : 23, S : 66, Ty : 8, Ti : 1522647344, Msg : "where are you going?"
+N : 24, S : 32, Ty : 6, Ti : 1522647310, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 34, S : 210, Ty : 7, Ti : 1522647488, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex"
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+]
+Alarm> Type A Alarm Request With Message Number (94) Inserted Into Alarm List at <1522647278>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522647288, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646779, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522646852, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 2, Ti : 1522646803, Msg : "where are you?"
+N : 6, S : 10, Ty : 2, Ti : 1522646803, Msg : "would you like to hear a story?"
+N : 12, S : 100, Ty : 6, Ti : 1522647378, Msg : "How are you?"
+N : 13, S : 60, Ty : 8, Ti : 1522647338, Msg : "where are you going?"
+N : 14, S : 30, Ty : 6, Ti : 1522647308, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 22, S : 8, Ty : 6, Ti : 1522647286, Msg : "How are you?"
+N : 23, S : 66, Ty : 8, Ti : 1522647344, Msg : "where are you going?"
+N : 24, S : 32, Ty : 6, Ti : 1522647310, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 34, S : 210, Ty : 7, Ti : 1522647488, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex"
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+N : 94, S : 130, Ty : 2, Ti : 1522647408, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp^
+]
+Alarm> Type A Alarm Request With Message Number (294) Inserted Into Alarm List at <1522647278>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522647288, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646779, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522646852, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 2, Ti : 1522646803, Msg : "where are you?"
+N : 6, S : 10, Ty : 2, Ti : 1522646803, Msg : "would you like to hear a story?"
+N : 12, S : 100, Ty : 6, Ti : 1522647378, Msg : "How are you?"
+N : 13, S : 60, Ty : 8, Ti : 1522647338, Msg : "where are you going?"
+N : 14, S : 30, Ty : 6, Ti : 1522647308, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 22, S : 8, Ty : 6, Ti : 1522647286, Msg : "How are you?"
+N : 23, S : 66, Ty : 8, Ti : 1522647344, Msg : "where are you going?"
+N : 24, S : 32, Ty : 6, Ti : 1522647310, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 34, S : 210, Ty : 7, Ti : 1522647488, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex"
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+N : 94, S : 130, Ty : 2, Ti : 1522647408, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp^
+N : 294, S : 20, Ty : 1, Ti : 1522647298, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex&
+]
+
+
+====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====
+====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====
+====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====
+====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====
+
+TESTING FOR THREAD CREATION:
+Alarm> Create_Thread: MessageType(7)
+Type B Create Thread Alarm Request For Message Type (7) Inserted Into Alarm List at <1522650505>!
+List of Threads:
+Thread Type: 7
+Alarm> Type B Alarm Request Processed at <1522650506>: New Periodic Display Thread For Message Type (7) Created.
+Printing message, Type : 7 , Number : 34 , Message : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex" , Time : 1522650506
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522647288, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646779, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522646852, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 2, Ti : 1522646803, Msg : "where are you?"
+N : 6, S : 10, Ty : 2, Ti : 1522646803, Msg : "would you like to hear a story?"
+N : 12, S : 100, Ty : 6, Ti : 1522647378, Msg : "How are you?"
+N : 13, S : 60, Ty : 8, Ti : 1522647338, Msg : "where are you going?"
+N : 14, S : 30, Ty : 6, Ti : 1522647308, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 22, S : 8, Ty : 6, Ti : 1522647286, Msg : "How are you?"
+N : 23, S : 66, Ty : 8, Ti : 1522647344, Msg : "where are you going?"
+N : 24, S : 32, Ty : 6, Ti : 1522647310, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+N : 94, S : 130, Ty : 2, Ti : 1522647408, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp^
+N : 294, S : 20, Ty : 1, Ti : 1522647298, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex&
+]
+Type A Alarm Request Processed at <1522650507>: Periodic Display Thread For Message Type (7) Terminated: No more Alarm Requests For Message Type (7).
+
+====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====
+====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====
+====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====
+====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====<<<<>>>>====
+
+TESTING FOR THREAD CREATION OF MULTIPLE THREADS WITH MESSAGE REPLACEMENTS AND NEW MESSAGES:
+
+Create_Thread: MessageType(6)
+Create_Thread: MessageType(7)
+Create_Thread: MessageType(8)
+10 Message(2, 65) "where are you?"
+10 Message(2, 8) "would you like to hear a story?"
+10 Message(2, 64) "Operating systems is a cool course"
+10 Message(123, 5) "where are you?"
+10 Message(6, 8) "would you like to hear a story?"
+10 Message(2, 4) "Operating systems is a cool course"
+Create_Thread: MessageType(2)
+Cancel: Message(2)
+Cancel: Message(1)
+Create_Thread: Message(1)
+Cancel: Message(1)
+
+
+OUTPUT
+
+
+Alarm> Type B Create Thread Alarm Request For Message Type (6) Inserted Into Alarm List at <1522656294>!
+List of Threads:
+Thread Type: 6
+Alarm> Type B Alarm Request Error: No Alarm Request With Message Type (7)!
+Alarm> Type B Create Thread Alarm Request For Message Type (8) Inserted Into Alarm List at <1522656294>!
+List of Threads:
+Thread Type: 6
+Thread Type: 8
+Alarm> Type A Alarm Request With Message Number (65) Inserted Into Alarm List at <1522656294>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522647288, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646779, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522646852, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 2, Ti : 1522646803, Msg : "where are you?"
+N : 6, S : 10, Ty : 2, Ti : 1522646803, Msg : "would you like to hear a story?"
+N : 12, S : 100, Ty : 6, Ti : 1522647378, Msg : "How are you?"
+N : 13, S : 60, Ty : 8, Ti : 1522647338, Msg : "where are you going?"
+N : 14, S : 30, Ty : 6, Ti : 1522647308, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 22, S : 8, Ty : 6, Ti : 1522647286, Msg : "How are you?"
+N : 23, S : 66, Ty : 8, Ti : 1522647344, Msg : "where are you going?"
+N : 24, S : 32, Ty : 6, Ti : 1522647310, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 65, S : 10, Ty : 2, Ti : 1522656304, Msg : "where are you?"
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+N : 94, S : 130, Ty : 2, Ti : 1522647408, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp^
+N : 294, S : 20, Ty : 1, Ti : 1522647298, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex&
+]
+Alarm> Type A Alarm Request With Message Number (8) Inserted Into Alarm List at <1522656294>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522647288, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646779, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522646852, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 2, Ti : 1522646803, Msg : "where are you?"
+N : 6, S : 10, Ty : 2, Ti : 1522646803, Msg : "would you like to hear a story?"
+N : 8, S : 10, Ty : 2, Ti : 1522656304, Msg : "would you like to hear a story?"
+N : 12, S : 100, Ty : 6, Ti : 1522647378, Msg : "How are you?"
+N : 13, S : 60, Ty : 8, Ti : 1522647338, Msg : "where are you going?"
+N : 14, S : 30, Ty : 6, Ti : 1522647308, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 22, S : 8, Ty : 6, Ti : 1522647286, Msg : "How are you?"
+N : 23, S : 66, Ty : 8, Ti : 1522647344, Msg : "where are you going?"
+N : 24, S : 32, Ty : 6, Ti : 1522647310, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 65, S : 10, Ty : 2, Ti : 1522656304, Msg : "where are you?"
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+N : 94, S : 130, Ty : 2, Ti : 1522647408, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp^
+N : 294, S : 20, Ty : 1, Ti : 1522647298, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex&
+]
+Alarm> Type A Alarm Request With Message Number (64) Inserted Into Alarm List at <1522656294>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522647288, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646779, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522646852, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 2, Ti : 1522646803, Msg : "where are you?"
+N : 6, S : 10, Ty : 2, Ti : 1522646803, Msg : "would you like to hear a story?"
+N : 8, S : 10, Ty : 2, Ti : 1522656304, Msg : "would you like to hear a story?"
+N : 12, S : 100, Ty : 6, Ti : 1522647378, Msg : "How are you?"
+N : 13, S : 60, Ty : 8, Ti : 1522647338, Msg : "where are you going?"
+N : 14, S : 30, Ty : 6, Ti : 1522647308, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 22, S : 8, Ty : 6, Ti : 1522647286, Msg : "How are you?"
+N : 23, S : 66, Ty : 8, Ti : 1522647344, Msg : "where are you going?"
+N : 24, S : 32, Ty : 6, Ti : 1522647310, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 64, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 65, S : 10, Ty : 2, Ti : 1522656304, Msg : "where are you?"
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+N : 94, S : 130, Ty : 2, Ti : 1522647408, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp^
+N : 294, S : 20, Ty : 1, Ti : 1522647298, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex&
+]
+Alarm> Type A Replacement Alarm Request With Message Number (5) Inserted Into Alarm List at <1522656294>: <Type A>
+Stopped Displaying Replaced Alarm With Message Type (2) at <1522656294>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522647288, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646779, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522646852, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 123, Ti : 1522656304, Msg : "where are you?"
+N : 6, S : 10, Ty : 2, Ti : 1522646803, Msg : "would you like to hear a story?"
+N : 8, S : 10, Ty : 2, Ti : 1522656304, Msg : "would you like to hear a story?"
+N : 12, S : 100, Ty : 6, Ti : 1522647378, Msg : "How are you?"
+N : 13, S : 60, Ty : 8, Ti : 1522647338, Msg : "where are you going?"
+N : 14, S : 30, Ty : 6, Ti : 1522647308, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 22, S : 8, Ty : 6, Ti : 1522647286, Msg : "How are you?"
+N : 23, S : 66, Ty : 8, Ti : 1522647344, Msg : "where are you going?"
+N : 24, S : 32, Ty : 6, Ti : 1522647310, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 64, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 65, S : 10, Ty : 2, Ti : 1522656304, Msg : "where are you?"
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+N : 94, S : 130, Ty : 2, Ti : 1522647408, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp^
+N : 294, S : 20, Ty : 1, Ti : 1522647298, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex&
+]
+Alarm> Type A Replacement Alarm Request With Message Number (8) Inserted Into Alarm List at <1522656294>: <Type A>
+Stopped Displaying Replaced Alarm With Message Type (2) at <1522656294>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522647288, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646779, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522646852, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 123, Ti : 1522656304, Msg : "where are you?"
+N : 6, S : 10, Ty : 2, Ti : 1522646803, Msg : "would you like to hear a story?"
+N : 8, S : 10, Ty : 6, Ti : 1522656304, Msg : "would you like to hear a story?"
+N : 12, S : 100, Ty : 6, Ti : 1522647378, Msg : "How are you?"
+N : 13, S : 60, Ty : 8, Ti : 1522647338, Msg : "where are you going?"
+N : 14, S : 30, Ty : 6, Ti : 1522647308, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 22, S : 8, Ty : 6, Ti : 1522647286, Msg : "How are you?"
+N : 23, S : 66, Ty : 8, Ti : 1522647344, Msg : "where are you going?"
+N : 24, S : 32, Ty : 6, Ti : 1522647310, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 64, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 65, S : 10, Ty : 2, Ti : 1522656304, Msg : "where are you?"
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+N : 94, S : 130, Ty : 2, Ti : 1522647408, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp^
+N : 294, S : 20, Ty : 1, Ti : 1522647298, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex&
+]
+Alarm> Type A Replacement Alarm Request With Message Number (4) Inserted Into Alarm List at <1522656294>: <Type A>
+Stopped Displaying Replaced Alarm With Message Type (2) at <1522656294>: <Type A>
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522647288, Msg : "I like Operating Systems"
+N : 2, S : 10, Ty : 1, Ti : 1522646779, Msg : "How are you?"
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 123, Ti : 1522656304, Msg : "where are you?"
+N : 6, S : 10, Ty : 2, Ti : 1522646803, Msg : "would you like to hear a story?"
+N : 8, S : 10, Ty : 6, Ti : 1522656304, Msg : "would you like to hear a story?"
+N : 12, S : 100, Ty : 6, Ti : 1522647378, Msg : "How are you?"
+N : 13, S : 60, Ty : 8, Ti : 1522647338, Msg : "where are you going?"
+N : 14, S : 30, Ty : 6, Ti : 1522647308, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 22, S : 8, Ty : 6, Ti : 1522647286, Msg : "How are you?"
+N : 23, S : 66, Ty : 8, Ti : 1522647344, Msg : "where are you going?"
+N : 24, S : 32, Ty : 6, Ti : 1522647310, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 64, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 65, S : 10, Ty : 2, Ti : 1522656304, Msg : "where are you?"
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+N : 94, S : 130, Ty : 2, Ti : 1522647408, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp^
+N : 294, S : 20, Ty : 1, Ti : 1522647298, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex&
+]
+Alarm> Type B Create Thread Alarm Request For Message Type (2) Inserted Into Alarm List at <1522656294>!
+List of Threads:
+Thread Type: 6
+Thread Type: 8
+Thread Type: 2
+Alarm> List of Removal_Requests:
+Msg_Number: 2
+Type C Cancel Alarm Request With Message Number (2) Inserted Into Alarm List at <1522656294>: <Type C>
+Alarm> List of Removal_Requests:
+Msg_Number: 2
+Msg_Number: 1
+Type C Cancel Alarm Request With Message Number (1) Inserted Into Alarm List at <1522656294>: <Type C>
+Alarm> Bad Command. Usage:
+Type A: <+ve integer> Message(Message_Type : <+ve integer>, Message_Number : <+ve integer>) <string message>
+Type B: Create_Thread: MessageType(Message_Type : <+ve integer>)
+Type C: Cancle: Message(Message_Number : <+ve integer>)
+Alarm> Error: More Than One Request to Cancel Alarm Request With Message Number (1)!
+Alarm> Alarm> Type B Alarm Request Processed at <1522656294>: New Periodic Display Thread For Message Type (6) Created.
+Alarm With Message Type (6) and Message Number (8) Displayed at <1522656294>: <Type B>
+Type B Alarm Request Processed at <1522656294>: New Periodic Display Thread For Message Type (8) Created.
+Printing message, Type : 8 , Number : 13 , Message : "where are you going?" , Time : 1522656294
+Printing message, Type : 8 , Number : 23 , Message : "where are you going?" , Time : 1522656294
+Printing message, Type : 6 , Number : 12 , Message : "How are you?" , Time : 1522656294
+Printing message, Type : 6 , Number : 14 , Message : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp , Time : 1522656294
+Printing message, Type : 6 , Number : 22 , Message : "How are you?" , Time : 1522656294
+Printing message, Type : 6 , Number : 24 , Message : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp , Time : 1522656294
+Type B Alarm Request Processed at <1522656294>: New Periodic Display Thread For Message Type (2) Created.
+[list:
+N : 1, S : 10, Ty : 1, Ti : 1522647288, Msg : "I like Operating Systems"
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 123, Ti : 1522656304, Msg : "where are you?"
+N : 6, S : 10, Ty : 2, Ti : 1522646803, Msg : "would you like to hear a story?"
+N : 8, S : 10, Ty : 6, Ti : 1522656304, Msg : "would you like to hear a story?"
+N : 12, S : 100, Ty : 6, Ti : 1522647378, Msg : "How are you?"
+N : 13, S : 60, Ty : 8, Ti : 1522647338, Msg : "where are you going?"
+N : 14, S : 30, Ty : 6, Ti : 1522647308, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 22, S : 8, Ty : 6, Ti : 1522647286, Msg : "How are you?"
+N : 23, S : 66, Ty : 8, Ti : 1522647344, Msg : "where are you going?"
+N : 24, S : 32, Ty : 6, Ti : 1522647310, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 64, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 65, S : 10, Ty : 2, Ti : 1522656304, Msg : "where are you?"
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+N : 94, S : 130, Ty : 2, Ti : 1522647408, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp^
+N : 294, S : 20, Ty : 1, Ti : 1522647298, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex&
+]
+Type C Alarm Request Processed at <1522656294>: Alarm Request With Message Number (2) Removed
+[list:
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 123, Ti : 1522656304, Msg : "where are you?"
+N : 6, S : 10, Ty : 2, Ti : 1522646803, Msg : "would you like to hear a story?"
+N : 8, S : 10, Ty : 6, Ti : 1522656304, Msg : "would you like to hear a story?"
+N : 12, S : 100, Ty : 6, Ti : 1522647378, Msg : "How are you?"
+N : 13, S : 60, Ty : 8, Ti : 1522647338, Msg : "where are you going?"
+N : 14, S : 30, Ty : 6, Ti : 1522647308, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 22, S : 8, Ty : 6, Ti : 1522647286, Msg : "How are you?"
+N : 23, S : 66, Ty : 8, Ti : 1522647344, Msg : "where are you going?"
+N : 24, S : 32, Ty : 6, Ti : 1522647310, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 64, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 65, S : 10, Ty : 2, Ti : 1522656304, Msg : "where are you?"
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+N : 94, S : 130, Ty : 2, Ti : 1522647408, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp^
+N : 294, S : 20, Ty : 1, Ti : 1522647298, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex&
+]
+Type C Alarm Request Processed at <1522656294>: Alarm Request With Message Number (1) Removed
+Alarm With Message Type (2) and Message Number (4) Displayed at <1522656294>: <Type B>
+Printing message, Type : 2 , Number : 6 , Message : "would you like to hear a story?" , Time : 1522656294
+Alarm With Message Type (2) and Message Number (64) Displayed at <1522656294>: <Type B>
+Alarm With Message Type (2) and Message Number (65) Displayed at <1522656294>: <Type B>
+Printing message, Type : 2 , Number : 94 , Message : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp^ , Time : 1522656294
+Alarm With Message Type (6) and Message Number (8) Displayed at <1522656295>: <Type B>
+[list:
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 123, Ti : 1522656304, Msg : "where are you?"
+N : 8, S : 10, Ty : 6, Ti : 1522656304, Msg : "would you like to hear a story?"
+N : 12, S : 100, Ty : 6, Ti : 1522647378, Msg : "How are you?"
+N : 13, S : 60, Ty : 8, Ti : 1522647338, Msg : "where are you going?"
+N : 14, S : 30, Ty : 6, Ti : 1522647308, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 22, S : 8, Ty : 6, Ti : 1522647286, Msg : "How are you?"
+N : 23, S : 66, Ty : 8, Ti : 1522647344, Msg : "where are you going?"
+N : 24, S : 32, Ty : 6, Ti : 1522647310, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 64, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 65, S : 10, Ty : 2, Ti : 1522656304, Msg : "where are you?"
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+N : 94, S : 130, Ty : 2, Ti : 1522647408, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp^
+N : 294, S : 20, Ty : 1, Ti : 1522647298, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex&
+]
+[list:
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 123, Ti : 1522656304, Msg : "where are you?"
+N : 8, S : 10, Ty : 6, Ti : 1522656304, Msg : "would you like to hear a story?"
+N : 13, S : 60, Ty : 8, Ti : 1522647338, Msg : "where are you going?"
+N : 14, S : 30, Ty : 6, Ti : 1522647308, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 22, S : 8, Ty : 6, Ti : 1522647286, Msg : "How are you?"
+N : 23, S : 66, Ty : 8, Ti : 1522647344, Msg : "where are you going?"
+N : 24, S : 32, Ty : 6, Ti : 1522647310, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 64, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 65, S : 10, Ty : 2, Ti : 1522656304, Msg : "where are you?"
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+N : 94, S : 130, Ty : 2, Ti : 1522647408, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp^
+N : 294, S : 20, Ty : 1, Ti : 1522647298, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex&
+]
+[list:
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 123, Ti : 1522656304, Msg : "where are you?"
+N : 8, S : 10, Ty : 6, Ti : 1522656304, Msg : "would you like to hear a story?"
+N : 14, S : 30, Ty : 6, Ti : 1522647308, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 22, S : 8, Ty : 6, Ti : 1522647286, Msg : "How are you?"
+N : 23, S : 66, Ty : 8, Ti : 1522647344, Msg : "where are you going?"
+N : 24, S : 32, Ty : 6, Ti : 1522647310, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 64, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 65, S : 10, Ty : 2, Ti : 1522656304, Msg : "where are you?"
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+N : 94, S : 130, Ty : 2, Ti : 1522647408, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp^
+N : 294, S : 20, Ty : 1, Ti : 1522647298, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex&
+]
+[list:
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 123, Ti : 1522656304, Msg : "where are you?"
+N : 8, S : 10, Ty : 6, Ti : 1522656304, Msg : "would you like to hear a story?"
+N : 22, S : 8, Ty : 6, Ti : 1522647286, Msg : "How are you?"
+N : 23, S : 66, Ty : 8, Ti : 1522647344, Msg : "where are you going?"
+N : 24, S : 32, Ty : 6, Ti : 1522647310, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 64, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 65, S : 10, Ty : 2, Ti : 1522656304, Msg : "where are you?"
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+N : 94, S : 130, Ty : 2, Ti : 1522647408, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp^
+N : 294, S : 20, Ty : 1, Ti : 1522647298, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex&
+]
+[list:
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 123, Ti : 1522656304, Msg : "where are you?"
+N : 8, S : 10, Ty : 6, Ti : 1522656304, Msg : "would you like to hear a story?"
+N : 23, S : 66, Ty : 8, Ti : 1522647344, Msg : "where are you going?"
+N : 24, S : 32, Ty : 6, Ti : 1522647310, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 64, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 65, S : 10, Ty : 2, Ti : 1522656304, Msg : "where are you?"
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+N : 94, S : 130, Ty : 2, Ti : 1522647408, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp^
+N : 294, S : 20, Ty : 1, Ti : 1522647298, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex&
+]
+[list:
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 123, Ti : 1522656304, Msg : "where are you?"
+N : 8, S : 10, Ty : 6, Ti : 1522656304, Msg : "would you like to hear a story?"
+N : 24, S : 32, Ty : 6, Ti : 1522647310, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp
+N : 64, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 65, S : 10, Ty : 2, Ti : 1522656304, Msg : "where are you?"
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+N : 94, S : 130, Ty : 2, Ti : 1522647408, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp^
+N : 294, S : 20, Ty : 1, Ti : 1522647298, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex&
+]
+[list:
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 123, Ti : 1522656304, Msg : "where are you?"
+N : 8, S : 10, Ty : 6, Ti : 1522656304, Msg : "would you like to hear a story?"
+N : 64, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 65, S : 10, Ty : 2, Ti : 1522656304, Msg : "where are you?"
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+N : 94, S : 130, Ty : 2, Ti : 1522647408, Msg : "gBk6rCMBZaQMcGVJOF548wiXAO5R88vVwnwLPVBev9K9fypmmKDFJOgVOaqe5abkMDuSjXO8QXA1Tae01PaxsTDh6en385G77NfjD0m8vac7x1SxzBUjMpRDzE5qbZp^
+N : 294, S : 20, Ty : 1, Ti : 1522647298, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex&
+]
+[list:
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 123, Ti : 1522656304, Msg : "where are you?"
+N : 8, S : 10, Ty : 6, Ti : 1522656304, Msg : "would you like to hear a story?"
+N : 64, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 65, S : 10, Ty : 2, Ti : 1522656304, Msg : "where are you?"
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+N : 294, S : 20, Ty : 1, Ti : 1522647298, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex&
+]
+Alarm With Message Type (2) and Message Number (4) Displayed at <1522656295>: <Type B>
+Alarm With Message Type (2) and Message Number (64) Displayed at <1522656295>: <Type B>
+Alarm With Message Type (2) and Message Number (65) Displayed at <1522656295>: <Type B>
+Alarm With Message Type (6) and Message Number (8) Displayed at <1522656296>: <Type B>
+Type A Alarm Request Processed at <1522656296>: Periodic Display Thread For Message Type (8) Terminated: No more Alarm Requests For Message Type (8).
+Alarm With Message Type (2) and Message Number (4) Displayed at <1522656296>: <Type B>
+Alarm With Message Type (2) and Message Number (64) Displayed at <1522656296>: <Type B>
+Alarm With Message Type (2) and Message Number (65) Displayed at <1522656296>: <Type B>
+Alarm With Message Type (6) and Message Number (8) Displayed at <1522656297>: <Type B>
+Alarm With Message Type (2) and Message Number (4) Displayed at <1522656297>: <Type B>
+Alarm With Message Type (2) and Message Number (64) Displayed at <1522656297>: <Type B>
+Alarm With Message Type (2) and Message Number (65) Displayed at <1522656297>: <Type B>
+Alarm With Message Type (6) and Message Number (8) Displayed at <1522656298>: <Type B>
+Alarm With Message Type (2) and Message Number (4) Displayed at <1522656298>: <Type B>
+Alarm With Message Type (2) and Message Number (64) Displayed at <1522656298>: <Type B>
+Alarm With Message Type (2) and Message Number (65) Displayed at <1522656298>: <Type B>
+Alarm With Message Type (6) and Message Number (8) Displayed at <1522656299>: <Type B>
+Alarm With Message Type (2) and Message Number (4) Displayed at <1522656299>: <Type B>
+Alarm With Message Type (2) and Message Number (64) Displayed at <1522656299>: <Type B>
+Alarm With Message Type (2) and Message Number (65) Displayed at <1522656299>: <Type B>
+Alarm With Message Type (6) and Message Number (8) Displayed at <1522656300>: <Type B>
+Alarm With Message Type (2) and Message Number (4) Displayed at <1522656300>: <Type B>
+Alarm With Message Type (2) and Message Number (64) Displayed at <1522656300>: <Type B>
+Alarm With Message Type (2) and Message Number (65) Displayed at <1522656300>: <Type B>
+Alarm With Message Type (6) and Message Number (8) Displayed at <1522656301>: <Type B>
+Alarm With Message Type (2) and Message Number (4) Displayed at <1522656301>: <Type B>
+Alarm With Message Type (2) and Message Number (64) Displayed at <1522656301>: <Type B>
+Alarm With Message Type (2) and Message Number (65) Displayed at <1522656301>: <Type B>
+Alarm With Message Type (6) and Message Number (8) Displayed at <1522656302>: <Type B>
+Alarm With Message Type (2) and Message Number (4) Displayed at <1522656302>: <Type B>
+Alarm With Message Type (2) and Message Number (64) Displayed at <1522656302>: <Type B>
+Alarm With Message Type (2) and Message Number (65) Displayed at <1522656302>: <Type B>
+Alarm With Message Type (6) and Message Number (8) Displayed at <1522656303>: <Type B>
+Alarm With Message Type (2) and Message Number (4) Displayed at <1522656303>: <Type B>
+Alarm With Message Type (2) and Message Number (64) Displayed at <1522656303>: <Type B>
+Alarm With Message Type (2) and Message Number (65) Displayed at <1522656303>: <Type B>
+Alarm With Message Type (6) and Message Number (8) Displayed at <1522656304>: <Type B>
+Alarm With Message Type (2) and Message Number (4) Displayed at <1522656304>: <Type B>
+Alarm With Message Type (2) and Message Number (64) Displayed at <1522656304>: <Type B>
+Alarm With Message Type (2) and Message Number (65) Displayed at <1522656304>: <Type B>
+Printing message, Type : 6 , Number : 8 , Message : "would you like to hear a story?" , Time : 1522656305
+[list:
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 4, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 5, S : 10, Ty : 123, Ti : 1522656304, Msg : "where are you?"
+N : 64, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 65, S : 10, Ty : 2, Ti : 1522656304, Msg : "where are you?"
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+N : 294, S : 20, Ty : 1, Ti : 1522647298, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex&
+]
+Printing message, Type : 2 , Number : 4 , Message : "Operating systems is a cool course" , Time : 1522656305
+Printing message, Type : 2 , Number : 64 , Message : "Operating systems is a cool course" , Time : 1522656305
+Printing message, Type : 2 , Number : 65 , Message : "where are you?" , Time : 1522656305
+Type A Alarm Request Processed at <1522656306>: Periodic Display Thread For Message Type (6) Terminated: No more Alarm Requests For Message Type (6).
+[list:
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 5, S : 10, Ty : 123, Ti : 1522656304, Msg : "where are you?"
+N : 64, S : 10, Ty : 2, Ti : 1522656304, Msg : "Operating systems is a cool course"
+N : 65, S : 10, Ty : 2, Ti : 1522656304, Msg : "where are you?"
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+N : 294, S : 20, Ty : 1, Ti : 1522647298, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex&
+]
+[list:
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 5, S : 10, Ty : 123, Ti : 1522656304, Msg : "where are you?"
+N : 65, S : 10, Ty : 2, Ti : 1522656304, Msg : "where are you?"
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+N : 294, S : 20, Ty : 1, Ti : 1522647298, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex&
+]
+[list:
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 5, S : 10, Ty : 123, Ti : 1522656304, Msg : "where are you?"
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+N : 294, S : 20, Ty : 1, Ti : 1522647298, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex&
+]
+Type A Alarm Request Processed at <1522656307>: Periodic Display Thread For Message Type (2) Terminated: No more Alarm Requests For Message Type (2).
+
+Alarm>20 Message(2, 1) "hi"
+Type A Alarm Request With Message Number (1) Inserted Into Alarm List at <1522656488>: <Type A>
+[list:
+N : 1, S : 20, Ty : 2, Ti : 1522656508, Msg : "hi"
+N : 3, S : 10, Ty : 1, Ti : 1522646779, Msg : "where are you going?"
+N : 5, S : 10, Ty : 123, Ti : 1522656304, Msg : "where are you?"
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+N : 294, S : 20, Ty : 1, Ti : 1522647298, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex&
+]
+Alarm> Create_Thread: MessageType(1)
+Type B Create Thread Alarm Request For Message Type (1) Inserted Into Alarm List at <1522656509>!
+List of Threads:
+Thread Type: 1
+Alarm> Type B Alarm Request Processed at <1522656509>: New Periodic Display Thread For Message Type (1) Created.
+Printing message, Type : 1 , Number : 3 , Message : "where are you going?" , Time : 1522656509
+Printing message, Type : 1 , Number : 92 , Message : "How are you?" , Time : 1522656509
+Printing message, Type : 1 , Number : 93 , Message : "where are you going?" , Time : 1522656509
+Printing message, Type : 1 , Number : 294 , Message : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex& , Time : 1522656509
+[list:
+N : 1, S : 20, Ty : 2, Ti : 1522656508, Msg : "hi"
+N : 5, S : 10, Ty : 123, Ti : 1522656304, Msg : "where are you?"
+N : 92, S : 10, Ty : 1, Ti : 1522647288, Msg : "How are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+N : 294, S : 20, Ty : 1, Ti : 1522647298, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex&
+]
+[list:
+N : 1, S : 20, Ty : 2, Ti : 1522656508, Msg : "hi"
+N : 5, S : 10, Ty : 123, Ti : 1522656304, Msg : "where are you?"
+N : 93, S : 96, Ty : 1, Ti : 1522647374, Msg : "where are you going?"
+N : 294, S : 20, Ty : 1, Ti : 1522647298, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex&
+]
+[list:
+N : 1, S : 20, Ty : 2, Ti : 1522656508, Msg : "hi"
+N : 5, S : 10, Ty : 123, Ti : 1522656304, Msg : "where are you?"
+N : 294, S : 20, Ty : 1, Ti : 1522647298, Msg : "Hello, this is our project. This string will check if the messages are being correctly truncated as the number of characters ex&
+]
+[list:
+N : 1, S : 20, Ty : 2, Ti : 1522656508, Msg : "hi"
+N : 5, S : 10, Ty : 123, Ti : 1522656304, Msg : "where are you?"
+]
+Type A Alarm Request Processed at <1522656511>: Periodic Display Thread For Message Type (1) Terminated: No more Alarm Requests For Message Type (1).
+
+Alarm> Create_Thread:MessageType(123)
+Type B Create Thread Alarm Request For Message Type (123) Inserted Into Alarm List at <1522656536>!
+List of Threads:
+Thread Type: 123
+Alarm> Type B Alarm Request Processed at <1522656536>: New Periodic Display Thread For Message Type (123) Created.
+Printing message, Type : 123 , Number : 5 , Message : "where are you?" , Time : 1522656536
+[list:
+N : 1, S : 20, Ty : 2, Ti : 1522656508, Msg : "hi"
+]
+Type A Alarm Request Processed at <1522656537>: Periodic Display Thread For Message Type (123) Terminated: No more Alarm Requests For Message Type (123).
+Create_Thread: MessageType(2)
+Type B Create Thread Alarm Request For Message Type (2) Inserted Into Alarm List at <1522656551>!
+List of Threads:
+Thread Type: 2
+Alarm> Type B Alarm Request Processed at <1522656552>: New Periodic Display Thread For Message Type (2) Created.
+Printing message, Type : 2 , Number : 1 , Message : "hi" , Time : 1522656552
+[list:
+]
+Type A Alarm Request Processed at <1522656554>: Periodic Display Thread For Message Type (2) Terminated: No more Alarm Requests For Message Type (2).
+
+
+
